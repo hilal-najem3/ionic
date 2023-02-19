@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,9 +9,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  public title: string = 'App Name';
-  public subtitle: string = 'App Subtitle';
+  public languages: string[] = ['en', 'ar'];
+  public language: string = this.languages[0];
 
   public appPages = [];
-  constructor() {}
+
+  constructor(
+    private translate: TranslateService
+  ) {
+    this.translate.setDefaultLang(this.language);
+  }
 }
