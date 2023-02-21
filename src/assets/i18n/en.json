@@ -1,6 +1,9 @@
 {
     "app_title": "app title",
     "app_subtitle": "app subtitle",
+    "menu": {
+        "theme": "dark theme"
+    },
     "login": {
         "email": "email",
         "password": "password",
