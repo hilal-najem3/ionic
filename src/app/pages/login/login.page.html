@@ -2,9 +2,24 @@
   <div class="flex-center">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>{{ 'login.title' | translate | titlecase }}</ion-card-title>
-        <ion-card-subtitle>{{ 'login.subtitle' | translate | titlecase }}</ion-card-subtitle>
+        <ion-card-title>{{ 'app_title' | translate | titlecase }}</ion-card-title>
       </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">{{ 'login.email' | translate | titlecase }}</ion-label>
+          <ion-input type="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">{{ 'login.password' | translate | titlecase }}</ion-label>
+          <ion-input type="password"></ion-input>
+        </ion-item>
+
+        <ion-button color="dark" fill="clear" size="full">{{ 'login.forgot' | translate | titlecase }}</ion-button>
+        <ion-button color="dark" size="full">{{ 'login.submit' | translate | titlecase }}</ion-button>
+        <ion-button color="dark" fill="clear" size="full">{{ 'login.register' | translate | titlecase }}</ion-button>
+      </ion-card-content>
     </ion-card>
   </div>
 </ion-content>
