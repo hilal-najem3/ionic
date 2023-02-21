@@ -4,20 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '@shared/shared.module';
+import { LoginPageRoutingModule } from './login-routing.module';
 
-import { LoaderPageRoutingModule } from './loader-routing.module';
-
-import { LoaderPage } from './loader.page';
+import { LoginPage } from './login.page';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LoaderPageRoutingModule,
+    LoginPageRoutingModule,
     SharedModule
   ],
-  declarations: [LoaderPage]
+  declarations: [LoginPage]
 })
-export class LoaderPageModule {}
+export class LoginPageModule {}

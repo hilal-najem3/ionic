@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -15,8 +16,13 @@ export class AppComponent {
   public appPages = [];
 
   constructor(
+    public platform: Platform,
     private translate: TranslateService
   ) {
-    this.translate.setDefaultLang(this.language);
+    this.platform.ready().then(() => {
+      this.translate.addLangs(this.languages);
+      this.translate.setDefaultLang(this.language);
+      this.translate.use(this.language);
+  });
   }
 }
