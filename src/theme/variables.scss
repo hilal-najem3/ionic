@@ -74,6 +74,13 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  --ion-color-title: #2dd36f;
+  --ion-color-title-rgb: 45, 211, 111;
+  --ion-color-title-contrast: #ffffff;
+  --ion-color-title-contrast-rgb: 255, 255, 255;
+  --ion-color-title-shade: #28ba62;
+  --ion-color-title-tint: #42d77d;
 }
 
 // @media (prefers-color-scheme: dark) {
@@ -145,6 +152,13 @@
     --ion-color-light-contrast-rgb: 255,255,255;
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
+
+    --ion-color-title: #2dd36f;
+    --ion-color-title-rgb: 45, 211, 111;
+    --ion-color-title-contrast: #ffffff;
+    --ion-color-title-contrast-rgb: 255, 255, 255;
+    --ion-color-title-shade: #28ba62;
+    --ion-color-title-tint: #42d77d;
   }
 
   /*
@@ -204,6 +218,8 @@
     --ion-text-color-rgb: 255,255,255;
 
     --ion-border-color: #222222;
+
+    --ion-color-title: #2dd36f;
 
     --ion-color-step-50: #1e1e1e;
     --ion-color-step-100: #2a2a2a;
@@ -304,6 +320,13 @@
     --ion-color-dark-contrast-rgb: 255,255,255;
     --ion-color-dark-shade: #1e2023;
     --ion-color-dark-tint: #383a3e;
+
+    --ion-color-title: #2dd36f;
+    --ion-color-title-rgb: 45, 211, 111;
+    --ion-color-title-contrast: #ffffff;
+    --ion-color-title-contrast-rgb: 255, 255, 255;
+    --ion-color-title-shade: #28ba62;
+    --ion-color-title-tint: #42d77d;
   }
 
   .ios body[color-theme="light"] {
@@ -343,7 +366,7 @@
    * -------------------------------------------
    */
 
-   .md body[color-theme="light"] {
+  .md body[color-theme="light"] {
     --ion-background-color: #2fdf75;
     --ion-background-color-rgb: 47,223,117;
 
@@ -382,3 +405,12 @@
   }
   
 // }
+
+.ion-color-title {
+	--ion-color-base: var(--ion-color-title);
+	--ion-color-base-rgb: var(--ion-color-title-rgb);
+	--ion-color-contrast: var(--ion-color-title-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-title-contrast-rgb);
+	--ion-color-shade: var(--ion-color-title-shade);
+	--ion-color-tint: var(--ion-color-title-tint);
+}
