@@ -34,6 +34,9 @@ export class AppComponent implements OnInit {
       title: 'menu.theme'
     };
     this.appPages.push(color);
+
+    // TODO: Get color from local storage
+    document.body.setAttribute('color-theme', 'light')
   }
 
   toggleChanged(event: any, p: AppPage): void {
