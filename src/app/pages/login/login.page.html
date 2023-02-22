@@ -6,19 +6,21 @@
       </ion-card-header>
 
       <ion-card-content>
-        <ion-item>
-          <ion-label position="floating">{{ 'login.email' | translate | titlecase }}</ion-label>
-          <ion-input type="email"></ion-input>
-        </ion-item>
+        <form [formGroup]="form">
+          <ion-item>
+            <ion-label position="floating">{{ 'login.email' | translate | titlecase }}</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">{{ 'login.password' | translate | titlecase }}</ion-label>
-          <ion-input type="password"></ion-input>
-        </ion-item>
+          <ion-item>
+            <ion-label position="floating">{{ 'login.password' | translate | titlecase }}</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
 
-        <ion-button color="title" fill="clear" size="full">{{ 'login.forgot' | translate | titlecase }}</ion-button>
-        <ion-button color="title" size="full" (click)="login()">{{ 'login.submit' | translate | titlecase }}</ion-button>
-        <ion-button color="title" fill="clear" size="full">{{ 'login.register' | translate | titlecase }}</ion-button>
+          <ion-button color="title" fill="clear" size="full">{{ 'login.forgot' | translate | titlecase }}</ion-button>
+          <ion-button color="title" size="full" (click)="login()" [disabled]="!form.valid">{{ 'login.submit' | translate | titlecase }}</ion-button>
+          <!-- <ion-button color="title" fill="clear" size="full">{{ 'login.register' | translate | titlecase }}</ion-button> -->
+        </form>  
       </ion-card-content>
     </ion-card>
   </div>

@@ -5,6 +5,7 @@ import { LoginPage } from './login.page';
 import { imports, providers } from '@shared/imports';
 import { Router } from '@angular/router';
 import { AppRoutingModule } from '@app/app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -16,7 +17,8 @@ describe('LoginPage', () => {
       declarations: [ LoginPage ],
       imports: [
         ...imports,
-        AppRoutingModule
+        AppRoutingModule,
+        ReactiveFormsModule
       ],
       providers: [
         ...providers,
@@ -31,6 +33,12 @@ describe('LoginPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create form on init', () => {
+    component.ngOnInit();
+
+    expect(component.form).not.toBeUndefined();
   });
 
   it('should go to home page on login', fakeAsync(() => {
