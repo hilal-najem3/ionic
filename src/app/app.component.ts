@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public platform: Platform,
-    private translate: TranslateService
+    protected translate: TranslateService
   ) {
     this.platform.ready().then(() => {
       this.translate.addLangs(this.languages);
