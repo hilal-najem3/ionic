@@ -17,7 +17,7 @@
         </ion-item>
 
         <ion-button color="title" fill="clear" size="full">{{ 'login.forgot' | translate | titlecase }}</ion-button>
-        <ion-button color="title" size="full">{{ 'login.submit' | translate | titlecase }}</ion-button>
+        <ion-button color="title" size="full" (click)="login()">{{ 'login.submit' | translate | titlecase }}</ion-button>
         <ion-button color="title" fill="clear" size="full">{{ 'login.register' | translate | titlecase }}</ion-button>
       </ion-card-content>
     </ion-card>
