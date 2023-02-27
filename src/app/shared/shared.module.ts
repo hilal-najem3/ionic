@@ -1,21 +1,42 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { IonicModule } from '@ionic/angular';
 
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ErrorMessageComponent } from './components';
+
+const COMPONENTS = [
+  ErrorMessageComponent
+];
+
+const MODULES = [
+  IonicModule.forRoot(),
+  CommonModule,
+  RouterModule,
+  TranslateModule
+];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ...COMPONENTS
+  ],
   imports: [
-    CommonModule,
-    RouterModule
+    ...MODULES
   ],
   exports: [
-    TranslateModule
+    TranslateModule,
+    ...COMPONENTS
   ],
   providers: [
     TranslateService,
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders<SharedModule> {
+    return {
+      ngModule: SharedModule,
+    };
+  }
+}

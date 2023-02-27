@@ -9,6 +9,16 @@
         "password": "password",
         "forgot": "forgot email / password?",
         "submit": "login",
-        "register": "register"
+        "register": "register",
+        "errors": {
+            "email": {
+                "required": "Email is required.",
+                "form": "Email format is invalid."
+            },
+            "password": {
+                "required": "Password is required.",
+                "minLength": "Password must be at least 6 characters."
+            }
+        }
     }
 }

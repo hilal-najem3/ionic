@@ -10,6 +10,7 @@
       "@assets/*": ["src/assets/*"],
       "@pages/*": ["src/app/pages/*"],
       "@models/*": ["src/app/models/*"],
+      "@services/*": ["src/app/services/*"],
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
