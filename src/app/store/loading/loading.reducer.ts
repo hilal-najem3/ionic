@@ -1,16 +1,20 @@
 /* eslint-disable @ngrx/on-function-explicit-return-type */
-import { Action, createReducer, on } from "@ngrx/store";
-import { show, hide } from ".";
+import { createReducer, on } from "@ngrx/store";
+import { show, hide, LoadingState } from ".";
+
+const initialStat: LoadingState = {
+    show: false
+}
 
 export const reducer = createReducer({},
     on(show, () => {
-        return {};
+        return {show: true};
     }),
     on(hide, () => {
-        return {}
+        return {show: false};
     })
 );
 
-export function loadingReducer(state: any, action: Action) {
+export function loadingReducer(state: LoadingState, action: any) {
     return reducer(state, action);
 }
