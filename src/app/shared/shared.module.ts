@@ -5,10 +5,12 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ErrorMessageComponent } from './components';
+
+import { ErrorMessageComponent, LoadingComponent } from './components';
 
 const COMPONENTS = [
-  ErrorMessageComponent
+  ErrorMessageComponent,
+  LoadingComponent,
 ];
 
 const MODULES = [
