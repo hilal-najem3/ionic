@@ -7,9 +7,11 @@
     "login": {
         "email": "email",
         "password": "password",
-        "forgot": "forgot email / password?",
+        "forgot": "forgot your password?",
         "submit": "login",
         "register": "register",
+        "recoverSent": "Recovery email sent.",
+        "recoverFailed": "Recover password failed",
         "errors": {
             "email": {
                 "required": "Email is required.",

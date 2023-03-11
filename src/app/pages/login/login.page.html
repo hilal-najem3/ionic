@@ -25,7 +25,10 @@
           <app-error-message [display]="error(password(), 'minlength')" error="'minLength'"
           message="{{ 'login.errors.password.minLength' | translate }}"></app-error-message>
 
-          <ion-button color="title" fill="clear" size="full">{{ 'login.forgot' | translate | titlecase }}</ion-button>
+          <ion-button color="title" fill="clear" size="full" (click)="forgot()" [disabled]="!email().valid"
+          #recoverPasswordButton id="recoverPasswordButton">
+            {{ 'login.forgot' | translate | titlecase }}
+          </ion-button>
           <ion-button color="title" size="full" (click)="login()" [disabled]="!form.valid">{{ 'login.submit' | translate | titlecase }}</ion-button>
           <!-- <ion-button color="title" fill="clear" size="full">{{ 'login.register' | translate | titlecase }}</ion-button> -->
         </form>  

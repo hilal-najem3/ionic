@@ -2,7 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -33,6 +33,7 @@ const MODULES = [
   ],
   providers: [
     TranslateService,
+    ToastController
   ]
 })
 export class SharedModule {
