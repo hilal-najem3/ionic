@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginPageForm } from './form/login.page.form';
-import { ErrorMessageService } from '@app/services';
+import { ErrorMessageService, StoreService } from '@app/services';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,8 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    protected errorMessageService: ErrorMessageService
+    protected errorMessageService: ErrorMessageService,
+    private storeService: StoreService
   ) { }
 
   ngOnInit() {
@@ -25,7 +26,9 @@ export class LoginPage implements OnInit {
   }
 
   login(): void {
+    this.storeService.showLoading();
     setTimeout(() => {
+      this.storeService.hideLoading();
       this.router.navigate(['/home']);
     }, 1000);
   }
