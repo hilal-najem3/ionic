@@ -1,24 +1,34 @@
 /* eslint-disable @ngrx/on-function-explicit-return-type */
 import { createReducer, on } from '@ngrx/store';
 import { LoginState, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from '.';
+import { AppInitialState } from '@store/app-initial.state';
 
-const initialState: LoginState = {
-    error: null,
-    isLoggedIn: false,
-    isLoggingIn: false,
-    isRecoveredPassword: false,
-    isRecoveringPassword: false
-}
+const initialState: LoginState = AppInitialState.login;
 
 const reducer = createReducer(initialState,
     on(recoverPassword, (currentState: LoginState) => {
-        return currentState;
+        return {
+            ...currentState,
+            error: null,
+            isRecoveredPassword: false,
+            isRecoveringPassword: true
+        };
     }),
     on(recoverPasswordSuccess, (currentState: LoginState) => {
-        return currentState;
+        return {
+            ...currentState,
+            error: null,
+            isRecoveredPassword: true,
+            isRecoveringPassword: false
+        };
     }),
-    on(recoverPasswordFail, (currentState: LoginState) => {
-        return currentState;
+    on(recoverPasswordFail, (currentState: LoginState, action) => {
+        return {
+            ...currentState,
+            error: action.error,
+            isRecoveredPassword: false,
+            isRecoveringPassword: false
+        };
     })
 );
 
