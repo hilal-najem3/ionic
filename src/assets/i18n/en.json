@@ -11,7 +11,9 @@
         "submit": "login",
         "register": "register",
         "recoverSent": "Recovery email sent.",
-        "recoverFailed": "Recover password failed",
+        "recoverFailed": "Recover password failed.",
+        "loginSuccess": "Logged in successfully.",
+        "loginFail": "Login in failed.",
         "errors": {
             "email": {
                 "required": "Email is required.",

@@ -10,6 +10,7 @@ import { LoginPageForm } from './form/login.page.form';
 import { AuthService, ErrorMessageService, StoreService, ToastService } from '@services/index';
 
 import { LoginState } from '@store/login';
+import { User } from '@app/models';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +45,12 @@ export class LoginPage implements OnInit, OnDestroy {
       this.onIsRecoveringPassword(loginState);
       this.onIsRecoveredPassword(loginState);
       this.onPasswordFailed(loginState);
+
+      this.onIsLoggingIn(loginState);
+      this.onIsLoggedIn(loginState);
+      this.onLoginFail(loginState);
+
+      this.toggleLoading(loginState);
     })
   }
 
@@ -54,11 +61,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   login(): void {
-    this.storeService.showLoading();
-    setTimeout(() => {
-      this.storeService.hideLoading();
-      this.router.navigate(['/home']);
-    }, 1000);
+    this.authService.activateLoginState();
   }
 
   email(): FormGroup {
@@ -83,7 +86,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private async onIsRecoveringPassword(loginState: LoginState): Promise<void> {
     if(loginState.isRecoveringPassword) {
-      this.storeService.showLoading();
       this.authService.recoverPassword(this.email().value).subscribe(() => {
         this.authService.recoveredPasswordState();
       }, error => {
@@ -94,7 +96,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private async onIsRecoveredPassword(loginState: LoginState): Promise<void> {
     if(loginState.isRecoveredPassword) {
-      this.storeService.hideLoading();
       this.toastService.show({
         position: 'bottom',
         message: this.messages.recoverSent,
@@ -107,7 +108,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private async onPasswordFailed(loginState: LoginState): Promise<void> {
     if(loginState.error) {
-      this.storeService.hideLoading();
       this.toastService.show({
         position: 'bottom',
         message: this.messages.recoverFailed,
@@ -116,5 +116,44 @@ export class LoginPage implements OnInit, OnDestroy {
       });
       this.setForm();
     }
+  }
+
+  private async onIsLoggingIn(loginState: LoginState): Promise<void> {
+    if(loginState.isLoggingIn) {
+      this.authService.login(this.email()?.value, this.password()?.value).subscribe((user: User) => {
+        this.authService.activateLoginSuccessState(user);
+      }, error => {
+        this.authService.activateLoginFailState({error});
+      });
+    }
+  }
+
+  private async onIsLoggedIn(loginState: LoginState): Promise<void> {
+    if(loginState.isLoggedIn) {
+      this.toastService.show({
+        position: 'bottom',
+        message: this.messages.loginSuccess,
+        color: 'primary',
+        duration: 5000
+      });
+      this.router.navigate(['/home']);
+    }
+  }
+
+  private async onLoginFail(loginState: LoginState): Promise<void> {
+    if(loginState.error) {
+      this.toastService.show({
+        position: 'bottom',
+        message: this.messages.loginFail,
+        color: 'danger',
+        duration: 5000
+      });
+      this.setForm();
+    }
+  }
+
+  private toggleLoading(loginState: LoginState): void {
+    loginState.isLoggingIn || loginState.isRecoveringPassword ? 
+    this.storeService.showLoading(): this.storeService.hideLoading();
   }
 }

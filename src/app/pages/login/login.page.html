@@ -29,7 +29,9 @@
           #recoverPasswordButton id="recoverPasswordButton">
             {{ 'login.forgot' | translate | titlecase }}
           </ion-button>
-          <ion-button color="title" size="full" (click)="login()" [disabled]="!form.valid">{{ 'login.submit' | translate | titlecase }}</ion-button>
+          <ion-button color="title" size="full" (click)="login()" [disabled]="!form.valid" #loginButton id="loginButton">
+            {{ 'login.submit' | translate | titlecase }}
+          </ion-button>
           <!-- <ion-button color="title" fill="clear" size="full">{{ 'login.register' | translate | titlecase }}</ion-button> -->
         </form>  
       </ion-card-content>
