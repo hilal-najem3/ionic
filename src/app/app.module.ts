@@ -2,6 +2,9 @@ import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
@@ -15,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppStoreModule } from '@store/app-store.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '@environments/environment';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -26,18 +30,20 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-     HttpClientModule,
-     TranslateModule.forRoot({
-       loader: {
-         provide: TranslateLoader,
-         useFactory: HttpLoaderFactory,
-         deps: [HttpClient]
-       }
-     }),
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     SharedModule,
     ReactiveFormsModule,
     ...AppStoreModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
