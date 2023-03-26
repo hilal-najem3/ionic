@@ -120,7 +120,8 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private async onIsLoggingIn(loginState: LoginState): Promise<void> {
     if(loginState.isLoggingIn) {
-      this.authService.login(this.email()?.value, this.password()?.value).subscribe((user: User) => {
+      this.authService.login(this.email()?.value, this.password()?.value)
+      .subscribe((user: User) => {
         this.authService.activateLoginSuccessState(user);
       }, error => {
         this.authService.activateLoginFailState({error});
@@ -144,7 +145,7 @@ export class LoginPage implements OnInit, OnDestroy {
     if(loginState.error) {
       this.toastService.show({
         position: 'bottom',
-        message: this.messages.loginFail,
+        message: this.getErrorMessage(loginState.error.code),
         color: 'danger',
         duration: 5000
       });
@@ -155,5 +156,20 @@ export class LoginPage implements OnInit, OnDestroy {
   private toggleLoading(loginState: LoginState): void {
     loginState.isLoggingIn || loginState.isRecoveringPassword ? 
     this.storeService.showLoading(): this.storeService.hideLoading();
+  }
+
+  private getErrorMessage(code: string): string {
+    let errorMessage: string = this.messages.loginFail.general;
+    switch(code) {
+      case 'auth/invalid-email': {
+        errorMessage = this.messages.loginFail.invalidEmail;
+        break;
+      }
+      default: {
+        errorMessage = this.messages.loginFail.general;
+        break;
+      }
+    }
+    return errorMessage;
   }
 }

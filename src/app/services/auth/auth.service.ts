@@ -3,10 +3,20 @@
 /* eslint-disable @ngrx/no-typed-global-store */
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import * as auth from 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 import { Observable } from 'rxjs';
 
-import { LoginState, login, loginFail, loginSuccess, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from '@store/login';
+import {
+  LoginState,
+  login,
+  loginFail,
+  loginSuccess,
+  recoverPassword,
+  recoverPasswordFail,
+  recoverPasswordSuccess
+} from '@store/login';
 import { AppState } from '@store/app-state.interface';
 import { User } from '@app/models';
 
@@ -16,18 +26,21 @@ import { User } from '@app/models';
 export class AuthService {
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public afAuth: AngularFireAuth
   ) { }
 
   recoverPassword(email: string): Observable<void> {
     return new Observable<void>((observer) => {
-      setTimeout(() => {
-        if(!email || email == 'error@email.com') {
-          observer.error({message: 'Email not found'});
-        }
+      this.afAuth.sendPasswordResetEmail(email)
+      .then(() => {
         observer.next();
         observer.complete();
-      }, 3000);
+      })
+      .catch(err => {
+        observer.error(err);
+        observer.complete();
+      })
     });
   }
 
