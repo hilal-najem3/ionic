@@ -19,7 +19,7 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { AuthService, StoreService, ToastService } from '@services/index';
 
 import { AppState } from '@store/app-state.interface';
-import { recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from '@store/login';
+import { login, loginFail, loginSuccess, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from '@store/login';
 import { TranslateService } from '@ngx-translate/core';
 
 import { User } from '@models/index';
@@ -119,7 +119,6 @@ describe('LoginPage', () => {
   });
 
   it('should show loading and start login when logging in', () => {
-    spyOn(authService, 'login').and.returnValue(new Observable(() => {}));
     fixture.detectChanges();
     component.form?.get('email')?.setValue('email@example.com');
     component.form?.get('password')?.setValue('V@lidP@ssWOrd');
@@ -132,20 +131,13 @@ describe('LoginPage', () => {
     });
   });
 
-  it('should hide loading and show home page after login', fakeAsync(() => {
+  it('should hide loading and show home page after login', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
     spyOn(router, 'navigate');
-    const newUser: User = {
-      id: '1',
-      email: 'email@example.com',
-    };
-    spyOn(authService, 'login').and.returnValue(of(newUser));
     
     fixture.detectChanges();
-    component.form?.get('email')?.setValue('email@example.com');
-    component.form?.get('password')?.setValue('V@lidP@ssWOrd');
-    page.querySelector('#loginButton').click();
-    tick(4000);
+    store.dispatch(login());
+    store.dispatch(loginSuccess({user: {id: '1', email: 'email@example.com'}}));
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
     });
@@ -155,17 +147,15 @@ describe('LoginPage', () => {
     });
     expect(toastController.create).toHaveBeenCalledTimes(1);
     expect(router.navigate).toHaveBeenCalledWith(['/home']);
-  }));
+  });
 
-  it('should hide loading and show error when couldn\'t login', fakeAsync(() => {
-    spyOn(authService, 'login').and.returnValue(throwError({message: 'error'}));
+  it('should hide loading and show error when couldn\'t login', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
     
     fixture.detectChanges();
-    component.form?.get('email')?.setValue('error@email.com');
-    component.form?.get('password')?.setValue('V@lidP@ssWOrd');
-    page.querySelector('#loginButton').click();
-    tick(4000);
+    store.dispatch(login());
+    store.dispatch(loginFail({error: {message: 'Login Failed'}}));
+    
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
     });
@@ -174,5 +164,5 @@ describe('LoginPage', () => {
       expect(loginState.isLoggedIn).toBeFalsy();
     });
     expect(toastController.create).toHaveBeenCalledTimes(2);
-  }));
+  });
 });

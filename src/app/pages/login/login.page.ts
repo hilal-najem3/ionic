@@ -10,7 +10,6 @@ import { LoginPageForm } from './form/login.page.form';
 import { AuthService, ErrorMessageService, StoreService, ToastService } from '@services/index';
 
 import { LoginState } from '@store/login';
-import { User } from '@app/models';
 
 @Component({
   selector: 'app-login',
@@ -41,12 +40,11 @@ export class LoginPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.setForm();
 
-    this.loginStateSubscription = this.authService.loginState().subscribe((loginState: LoginState) => {
-      this.onIsRecoveringPassword(loginState);
+    this.loginStateSubscription = this.authService.loginState()
+    .subscribe((loginState: LoginState) => {
       this.onIsRecoveredPassword(loginState);
       this.onPasswordFailed(loginState);
 
-      this.onIsLoggingIn(loginState);
       this.onIsLoggedIn(loginState);
       this.onLoginFail(loginState);
 
@@ -84,15 +82,6 @@ export class LoginPage implements OnInit, OnDestroy {
     this.form = new LoginPageForm(this.formBuilder).createForm();
   }
 
-  private async onIsRecoveringPassword(loginState: LoginState): Promise<void> {
-    if(loginState.isRecoveringPassword) {
-      this.authService.recoverPassword(this.email().value).subscribe(() => {
-        this.authService.recoveredPasswordState();
-      }, error => {
-        this.authService.recoverPasswordFailed({error});
-      });
-    }
-  }
 
   private async onIsRecoveredPassword(loginState: LoginState): Promise<void> {
     if(loginState.isRecoveredPassword) {
@@ -115,17 +104,6 @@ export class LoginPage implements OnInit, OnDestroy {
         duration: 5000
       });
       this.setForm();
-    }
-  }
-
-  private async onIsLoggingIn(loginState: LoginState): Promise<void> {
-    if(loginState.isLoggingIn) {
-      this.authService.login(this.email()?.value, this.password()?.value)
-      .subscribe((user: User) => {
-        this.authService.activateLoginSuccessState(user);
-      }, error => {
-        this.authService.activateLoginFailState({error});
-      });
     }
   }
 
