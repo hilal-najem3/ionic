@@ -76,8 +76,8 @@ export class AuthService {
     this.store.dispatch(loginFail({error}));
   }
 
-  recoveringPasswordState(): void {
-    this.store.dispatch(recoverPassword());
+  recoveringPasswordState(email: string): void {
+    this.store.dispatch(recoverPassword({email: email}));
   }
 
   recoveredPasswordState(): void {

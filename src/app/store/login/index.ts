@@ -1,3 +1,4 @@
     export * from './login-state.interface';
     export * from './login.actions';
     export * from './login.reducers';
+    export * from './login.effects';

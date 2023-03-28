@@ -75,7 +75,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   forgot(): void {
-    this.authService.recoveringPasswordState();
+    this.authService.recoveringPasswordState(this.email().value);
   }
 
   private setForm(): void {

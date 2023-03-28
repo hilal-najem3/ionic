@@ -96,7 +96,7 @@ describe('LoginPage', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
 
     fixture.detectChanges();
-    store.dispatch(recoverPassword());
+    store.dispatch(recoverPassword({email: 'foo@bar.com'}));
     store.dispatch(recoverPasswordSuccess());
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
@@ -109,7 +109,7 @@ describe('LoginPage', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
 
     fixture.detectChanges();
-    store.dispatch(recoverPassword());
+    store.dispatch(recoverPassword({email: 'foo@bar.com'}));
     store.dispatch(recoverPasswordFail({error: true}));
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
