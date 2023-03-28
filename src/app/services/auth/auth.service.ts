@@ -3,10 +3,11 @@
 /* eslint-disable @ngrx/no-typed-global-store */
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as auth from 'firebase/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 import { Observable } from 'rxjs';
+// import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 
 import {
   LoginState,
@@ -18,6 +19,7 @@ import {
   recoverPasswordSuccess
 } from '@store/login';
 import { AppState } from '@store/app-state.interface';
+
 import { User } from '@app/models';
 
 @Injectable({
@@ -46,19 +48,19 @@ export class AuthService {
 
   login(email: string, password: string): Observable<User> {
     return new Observable<User>((observer) => {
-      setTimeout(() => {
-        if(!email || email == 'error@email.com') {
-          observer.error({message: 'Email not found'});
-          observer.next();
-        } else {
-          const user:  User = {
-            id: 1,
-            email: email
-          };
-          observer.next(user);
-        }
+      this.afAuth.signInWithEmailAndPassword(email, password)
+      .then((res: any) => {
+        const user: User = {
+          id: res.user.uid,
+          email: email
+        };
+        observer.next(user);
         observer.complete();
-      }, 3000);
+      })
+      .catch(err => {
+        observer.error(err);
+        observer.complete();
+      });
     });
   }
 

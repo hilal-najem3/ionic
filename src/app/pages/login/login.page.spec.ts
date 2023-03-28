@@ -5,10 +5,16 @@ import { Store } from '@ngrx/store';
 
 import { LoginPage } from './login.page';
 
+import { Observable, of, throwError } from 'rxjs';
+
 import { imports, providers } from '@shared/imports';
 import { Router } from '@angular/router';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 import { AuthService, StoreService, ToastService } from '@services/index';
 
@@ -17,7 +23,12 @@ import { recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from '@s
 import { TranslateService } from '@ngx-translate/core';
 
 import { User } from '@models/index';
-import { of, throwError } from 'rxjs';
+import { environment } from '@environments/environment';
+
+const fireBase = [
+  provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+  provideFirestore(() => getFirestore()),
+];
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -33,6 +44,7 @@ describe('LoginPage', () => {
       declarations: [ LoginPage ],
       imports: [
         ...imports,
+        ...fireBase,
         AppRoutingModule,
         ReactiveFormsModule
       ],
@@ -41,7 +53,8 @@ describe('LoginPage', () => {
         StoreService,
         AuthService,
         ToastService,
-        ToastController
+        ToastController,
+        TranslateService
       ]
     }).compileComponents();
 
@@ -66,20 +79,16 @@ describe('LoginPage', () => {
     expect(component.form).not.toBeUndefined();
   });
 
-  it('should show forgot password form when forgot password clicked', () => {
+  it('should recover password form when forgot password clicked', () => {
+    spyOn(authService, 'recoverPassword').and.returnValue(new Observable(() => {}))
     fixture.detectChanges();
     component.form.get('email')?.setValue('valid@email.com');
     page.querySelector('#recoverPasswordButton').click();
-    store.select('login').subscribe(loginState => {
-      expect(loginState.isRecoveringPassword).toBeTruthy();
-    });
-  });
-
-  it('should show loading when recovering a password', () => {
-    fixture.detectChanges();
-    store.dispatch(recoverPassword());
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeTruthy();
+    });
+    store.select('login').subscribe(loginState => {
+      expect(loginState.isRecoveringPassword).toBeTruthy();
     });
   });
 
@@ -110,6 +119,7 @@ describe('LoginPage', () => {
   });
 
   it('should show loading and start login when logging in', () => {
+    spyOn(authService, 'login').and.returnValue(new Observable(() => {}));
     fixture.detectChanges();
     component.form?.get('email')?.setValue('email@example.com');
     component.form?.get('password')?.setValue('V@lidP@ssWOrd');
@@ -126,7 +136,7 @@ describe('LoginPage', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
     spyOn(router, 'navigate');
     const newUser: User = {
-      id: 1,
+      id: '1',
       email: 'email@example.com',
     };
     spyOn(authService, 'login').and.returnValue(of(newUser));

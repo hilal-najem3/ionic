@@ -4,6 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 // import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 // import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 // import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
@@ -22,7 +23,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppStoreModule } from '@store/app-store.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '@environments/environment';
-import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

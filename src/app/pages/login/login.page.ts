@@ -159,17 +159,29 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   private getErrorMessage(code: string): string {
-    let errorMessage: string = this.messages.loginFail.general;
+    const baseMessages = {
+      general: 'Login failed.',
+      invalidEmail: 'Email address not found.'
+    };
+    const messages = this.messages? 
+      this.messages.loginFail ? 
+        this.messages.loginFail
+        :
+        baseMessages
+      :
+      baseMessages
+    let errorMessage: string = messages.general ? messages.general : baseMessages.general;
+
     switch(code) {
       case 'auth/invalid-email': {
-        errorMessage = this.messages.loginFail.invalidEmail;
+        errorMessage = messages.invalidEmail ? messages.invalidEmail : baseMessages.invalidEmail;
         break;
       }
       default: {
-        errorMessage = this.messages.loginFail.general;
         break;
       }
     }
+
     return errorMessage;
   }
 }

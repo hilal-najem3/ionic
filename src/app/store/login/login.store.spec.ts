@@ -69,7 +69,7 @@ describe("Login State", () => {
             isLoggingIn: true
         };
         const user: User = {
-            id: 1,
+            id: '1',
             email: 'user@example.com'
         };
         const newState = loginReducer(initialState, loginSuccess({user}));
