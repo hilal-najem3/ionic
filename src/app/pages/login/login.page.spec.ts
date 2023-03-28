@@ -136,7 +136,7 @@ describe('LoginPage', () => {
     spyOn(router, 'navigate');
     
     fixture.detectChanges();
-    store.dispatch(login());
+    store.dispatch(login({email: 'foo@bar.com', password: 'password'}));
     store.dispatch(loginSuccess({user: {id: '1', email: 'email@example.com'}}));
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
@@ -153,7 +153,7 @@ describe('LoginPage', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
     
     fixture.detectChanges();
-    store.dispatch(login());
+    store.dispatch(login({email: 'foo@bar.com', password: 'password'}));
     store.dispatch(loginFail({error: {message: 'Login Failed'}}));
     
     store.select('loading').subscribe(loadingState => {

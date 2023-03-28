@@ -3,10 +3,11 @@ import { Observable, of, throwError } from 'rxjs';
 
 import { Action, StoreModule } from '@ngrx/store';
 
-import { LoginEffects, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from '.';
+import { LoginEffects, login, loginFail, loginSuccess, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from '.';
 import { EffectsModule } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthService } from '@app/services';
+import { User } from '@app/models';
 
 describe('Login effects', () => {
     let effects: LoginEffects;
@@ -18,6 +19,15 @@ describe('Login effects', () => {
                 return throwError(error);
             }
             return of({});
+        },
+        login: (email: string, password: string) => {
+            if(email == 'error@email.com') {
+                return throwError(error);
+            }
+            return of({
+                id: '1',
+                email: email
+            })
         }
     }
 
@@ -51,6 +61,25 @@ describe('Login effects', () => {
 
         effects.recoverPassword$.subscribe(newAction => {
             expect(newAction).toEqual(recoverPasswordFail({error}));
+            done();
+        })
+    });
+
+    it('should login success', (done) => {
+        actions$ = of(login({email: 'foo@bar.com', password: 'foo'}));
+
+        effects.login$.subscribe(newAction => {
+            const user: User = {id: '1', email: 'foo@bar.com'}
+            expect(newAction).toEqual(loginSuccess({user}));
+            done();
+        })
+    });
+
+    it('should login fail return an error', (done) => {
+        actions$ = of(login({email: 'error@email.com', password: 'foo'}));
+
+        effects.login$.subscribe(newAction => {
+            expect(newAction).toEqual(loginFail({error}));
             done();
         })
     });

@@ -59,7 +59,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   login(): void {
-    this.authService.activateLoginState();
+    this.authService.activateLoginState(this.email().value, this.password().value);
   }
 
   email(): FormGroup {

@@ -49,7 +49,7 @@ describe("Login State", () => {
 
     it('login', () => {
         const initialState: LoginState = AppInitialState.login;
-        const newState = loginReducer(initialState, login());
+        const newState = loginReducer(initialState, login({email: 'foo@bar.com', password: 'password'}));
 
         expect(newState).toEqual(
             {

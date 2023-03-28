@@ -64,8 +64,8 @@ export class AuthService {
     });
   }
 
-  activateLoginState(): void {
-    this.store.dispatch(login());
+  activateLoginState(email: string, password: string): void {
+    this.store.dispatch(login({email: email, password: password}));
   }
 
   activateLoginSuccessState(user: User): void {
